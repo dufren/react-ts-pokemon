@@ -19,14 +19,25 @@ const Home = () => {
 
   if (!data) return <div>Something went wrong.</div>;
 
-  const content = pokemons.map((poke) => <Poke key={poke.name} poke={poke} />);
+  const results = pokemons.map((poke) => <Poke key={poke.name} poke={poke} />);
+
+  const content = results?.length && results;
+
+  const emptyContent = !results?.length && (
+    <h1 className="text-4xl m-5">No matching poke!</h1>
+  );
 
   return (
     <main>
       <Search data={data.results} setPokemons={setPokemons} />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 p-4">
-        {content}
-      </div>
+
+      {results?.length ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 p-4">
+          {content}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center">{emptyContent}</div>
+      )}
     </main>
   );
 };
