@@ -6,7 +6,7 @@ type Props = {
   setPokemons: React.Dispatch<React.SetStateAction<PokeType[]>>;
 };
 
-const Search: React.FC<Props> = ({ data, setPokemons }) => {
+const Search = ({ data, setPokemons }: Props) => {
   const searchValue = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) =>
