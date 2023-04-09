@@ -20,7 +20,7 @@ const Poke = ({ poke }: PropsType) => {
   if (!data) return <div>Something went wrong.</div>;
 
   return (
-    <div className="bg-gray-200 border border-gray-400 rounded-lg flex flex-col justify-center items-center gap-5">
+    <div className="hover:scale-105 transition duration-300 bg-gray-200 border border-gray-400 rounded-lg flex flex-col justify-center items-center gap-5">
       <img
         className="h-44 object-contain"
         src={data.sprites.other.dream_world.front_default}
