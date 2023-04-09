@@ -1,7 +1,7 @@
 import React from "react";
 import { PokeType } from "../types/types";
 import { useGetPokeQuery } from "../app/api/apiSlice";
-import { LoadingPage } from "./Loading";
+import { LoadingSpinner } from "./Loading";
 
 type PropsType = {
   poke: PokeType;
@@ -10,7 +10,12 @@ type PropsType = {
 const Poke = ({ poke }: PropsType) => {
   const { data, isLoading } = useGetPokeQuery(poke.name);
 
-  if (isLoading) return <LoadingPage />;
+  if (isLoading)
+    return (
+      <div className="w-full h-96 bg-gray-50 border border-gray-100 rounded-lg p-4 flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   if (!data) return <div>Something went wrong.</div>;
 
@@ -21,7 +26,7 @@ const Poke = ({ poke }: PropsType) => {
         src={data.sprites.other.dream_world.front_default}
         alt={data.name}
       />
-      <h1>{data.name}</h1>
+      <h1 className="text-lg capitalize">{data.name}</h1>
     </div>
   );
 };

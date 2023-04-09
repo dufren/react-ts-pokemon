@@ -1,25 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetPokemonQuery } from "../app/api/apiSlice";
 import { LoadingPage } from "../components/Loading";
 import Poke from "../components/Poke";
+import { PokeType } from "../types/types";
+import Search from "../components/Search";
 
 const Home = () => {
-  const [dataLimit, setDataLimit] = useState({ offset: 0, limit: 0 });
+  const [pokemons, setPokemons] = useState<PokeType[]>([]);
 
-  const { data, isLoading, isFetching } = useGetPokemonQuery(dataLimit);
+  const { data, isLoading, isFetching, isSuccess } =
+    useGetPokemonQuery(undefined);
 
-  if (isLoading) return <LoadingPage />;
+  useEffect(() => {
+    data && setPokemons(data.results);
+  }, [isSuccess]);
+
+  if (isLoading || isFetching) return <LoadingPage />;
 
   if (!data) return <div>Something went wrong.</div>;
 
+  const content = pokemons.map((poke) => <Poke key={poke.name} poke={poke} />);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
-      {!isFetching ? (
-        data.results.map((poke) => <Poke key={poke.name} poke={poke} />)
-      ) : (
-        <LoadingPage />
-      )}
-    </div>
+    <main>
+      <Search data={data.results} setPokemons={setPokemons} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
+        {content}
+      </div>
+    </main>
   );
 };
 
