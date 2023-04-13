@@ -8,7 +8,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://pokeapi.co/api/v2/" }),
   endpoints: (builder) => ({
     getPokemon: builder.query<pokemonFetchType, undefined>({
-      query: () => `/pokemon?limit=44`,
+      query: () => `/pokemon?limit=2000`,
     }),
     getPoke: builder.query<detailedPokeType, string>({
       query: (url: string) => `pokemon/${url}`,

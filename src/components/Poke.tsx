@@ -12,7 +12,7 @@ const Poke = ({ poke }: PropsType) => {
 
   if (isLoading)
     return (
-      <div className="w-full h-96 bg-gray-50 border border-gray-100 rounded-lg p-4 flex justify-center items-center">
+      <div className="flex h-96 w-full items-center justify-center rounded-lg border border-gray-100 bg-gray-50 p-4">
         <LoadingSpinner />
       </div>
     );
@@ -20,10 +20,13 @@ const Poke = ({ poke }: PropsType) => {
   if (!data) return <div>Something went wrong.</div>;
 
   return (
-    <div className="hover:scale-105 transition duration-300 bg-gray-200 border border-gray-400 rounded-lg flex flex-col justify-center items-center gap-5">
+    <div className="flex flex-col items-center justify-center gap-5 rounded-lg border border-gray-400 bg-gray-200 transition duration-300 hover:scale-105">
       <img
         className="h-44 object-contain"
-        src={data.sprites.other.dream_world.front_default}
+        src={
+          data.sprites.other.dream_world.front_default ??
+          data.sprites.other["official-artwork"].front_default
+        }
         alt={data.name}
       />
       <h1 className="text-lg capitalize">{data.name}</h1>

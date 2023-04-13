@@ -11,7 +11,10 @@ export const store = configureStore({
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }).concat(apiSlice.middleware),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

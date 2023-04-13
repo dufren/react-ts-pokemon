@@ -28,10 +28,10 @@ const Search = ({ data, setPokemons }: Props) => {
   };
 
   return (
-    <div className="flex justify-center items-center max-w-5xl mx-auto m-3">
+    <div className="m-3 mx-auto flex max-w-xs items-center justify-center sm:max-w-md md:max-w-lg lg:max-w-5xl">
       <form className="w-full" onSubmit={handleSubmit}>
         <input
-          className="w-full p-4 bg-gray-200 border border-gray-400 rounded-lg outline-none"
+          className="w-full rounded-lg border border-gray-400 bg-gray-200 p-4 outline-none"
           type="text"
           placeholder="search poke..."
           ref={searchValue}

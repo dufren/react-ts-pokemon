@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
+import { PokeType } from "../types/types";
 import { useGetPokemonQuery } from "../app/api/apiSlice";
 import { LoadingPage } from "../components/Loading";
-import Poke from "../components/Poke";
-import { PokeType } from "../types/types";
 import Search from "../components/Search";
+import PokemonList from "../components/Pokemon";
 
-const Home = () => {
+type PaginationProps = {
+  itemsPerPage: number;
+};
+
+function Home({ itemsPerPage }: PaginationProps) {
   const [pokemons, setPokemons] = useState<PokeType[]>([]);
+  const [itemOffset, setItemOffset] = useState(0);
 
   const { data, isLoading, isFetching, isSuccess } =
     useGetPokemonQuery(undefined);
@@ -15,31 +21,41 @@ const Home = () => {
     data && setPokemons(data.results);
   }, [isSuccess]);
 
-  if (isLoading || isFetching) return <LoadingPage />;
+  useEffect(() => {
+    setItemOffset(0);
+  }, [pokemons]);
 
+  if (isLoading || isFetching) return <LoadingPage />;
   if (!data) return <div>Something went wrong.</div>;
 
-  const results = pokemons.map((poke) => <Poke key={poke.name} poke={poke} />);
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = pokemons.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(pokemons.length / itemsPerPage);
 
-  const content = results?.length && results;
-
-  const emptyContent = !results?.length && (
-    <h1 className="text-4xl m-5">No matching poke!</h1>
-  );
+  const handlePageClick = (event: any) => {
+    const newOffset = (event.selected * itemsPerPage) % pokemons.length;
+    setItemOffset(newOffset);
+  };
 
   return (
-    <main>
+    <>
       <Search data={data.results} setPokemons={setPokemons} />
 
-      {results?.length ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 p-4">
-          {content}
-        </div>
-      ) : (
-        <div className="flex justify-center items-center">{emptyContent}</div>
-      )}
-    </main>
+      <PokemonList pokemons={currentItems} />
+
+      <ReactPaginate
+        className="flex flex-row items-center justify-center gap-3 p-5"
+        previousLinkClassName="sr-only"
+        nextLinkClassName="sr-only"
+        pageLinkClassName="border border-gray-400 bg-gray-200 p-2 rounded-lg hover:bg-gray-300"
+        breakLabel="..."
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        renderOnZeroPageCount={null}
+      />
+    </>
   );
-};
+}
 
 export default Home;
