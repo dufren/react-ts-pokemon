@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PokeType } from "../types/types";
 import ReactPaginate from "react-paginate";
-import PokemonList from "./Pokemon";
+import PokemonList from "./PokemonList";
 
 type PaginationProps = {
   itemsPerPage: number;
