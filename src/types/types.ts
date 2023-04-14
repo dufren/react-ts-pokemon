@@ -22,4 +22,13 @@ export type detailedPokeType = {
       };
     };
   };
+  types: typesObject[];
+};
+
+export type typesObject = {
+  slot: number;
+  type: {
+    name: string;
+    url: string;
+  };
 };

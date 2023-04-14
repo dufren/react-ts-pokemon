@@ -1,12 +1,14 @@
 import { PokeType } from "../types/types";
-import Poke from "./Poke";
+import PokeCard from "./PokeCard";
 
 type HomeProps = {
   pokemons: PokeType[];
 };
 
-function PokemonList({ pokemons }: HomeProps) {
-  const results = pokemons.map((poke) => <Poke key={poke.name} poke={poke} />);
+export default function PokemonList({ pokemons }: HomeProps) {
+  const results = pokemons.map((poke) => (
+    <PokeCard key={poke.name} poke={poke} />
+  ));
 
   const content = results?.length ? (
     results
@@ -26,5 +28,3 @@ function PokemonList({ pokemons }: HomeProps) {
     </main>
   );
 }
-
-export default PokemonList;
